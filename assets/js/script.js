@@ -10,19 +10,44 @@ $(function () {
     // useful when saving the description in local storage?
     //
 
+    // gets current hour
+    var currentHour = dayjs().hour();
 
-    // TODO: Add code to apply the past, present, or future class to each time
-    // block by comparing the id to the current hour. HINTS: How can the id
-    // attribute of each time-block be used to conditionally add or remove the
-    // past, present, and future classes? How can Day.js be used to get the
-    // current hour in 24-hour time?
-    //
-    // TODO: Add code to get any user input that was saved in localStorage and set
-    // the values of the corresponding textarea elements. HINT: How can the id
-    // attribute of each time-block be used to do this?
-    //
-    // TODO: Add code to display the current date in the header of the page.
+    // loops through all 9 hours in a work day
+    for(var i = 9; i <= 17; i++) {
+        checkTime(i, currentHour);
+    }
+
+    /*
+    * function checks if current hour is before, during, or after the current hour,
+    * it also converts the hour from a 24-hour clock to 12-hour one
+    */ 
+    function checkTime(hour, currentHour) {
+        if(hour > currentHour) {
+            if(hour > 12) {
+                hour = hour - 12;
+            }    
+            // appends the hour variable to get the proper id
+            $("#hour-" + hour).addClass("future");
+        }
+        else if(hour < currentHour) {
+            if(hour > 12) {
+                hour = hour - 12;
+            }    
+            // appends the hour variable to get the proper id
+            $("#hour-" + hour).addClass("past");
+        }
+        else {
+            if(hour > 12) {
+                hour = hour - 12;
+            }    
+            // appends the hour variable to get the proper id
+            $("#hour-" + hour).addClass('present')
+        }
+    }
+
+    // displays current day in header
     var currentDay = dayjs().format("dddd, MMMM D");
-    $('#currentDay').text(currentDay);
+    $("#currentDay").text(currentDay); //references id of <p> in header
   });
   
