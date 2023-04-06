@@ -10,6 +10,22 @@ $(function () {
     // useful when saving the description in local storage?
     //
 
+    var buttonEl = $(".btn");
+    var dayEl = $("#currentDay");
+
+    // saves user input in local storage upon hitting the save button
+    var handleSaveButton = function (event) {
+        var exactHour = $(this).parent().attr("id").split("-")[1]; // grab the hour from the div id name
+        var hourEl = $(this).parent().children().eq(1).val(); // grab value of textarea tag       
+
+        var hourSchedule = localStorage.getItem("hour-" + exactHour);
+
+        hourSchedule = hourEl;
+        localStorage.setItem("hour-" + exactHour, hourSchedule);
+    };
+
+    buttonEl.on("click", handleSaveButton);
+
     // gets current hour
     var currentHour = dayjs().hour();
 
@@ -48,6 +64,6 @@ $(function () {
 
     // displays current day in header
     var currentDay = dayjs().format("dddd, MMMM D");
-    $("#currentDay").text(currentDay); //references id of <p> in header
+    dayEl.text(currentDay); //references id of <p> in header
   });
   
