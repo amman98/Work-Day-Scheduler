@@ -1,15 +1,4 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 $(function () {
-    // TODO: Add a listener for click events on the save button. This code should
-    // use the id in the containing time-block as a key to save the user input in
-    // local storage. HINT: What does `this` reference in the click listener
-    // function? How can DOM traversal be used to get the "hour-x" id of the
-    // time-block containing the button that was clicked? How might the id be
-    // useful when saving the description in local storage?
-    //
-
     var buttonEl = $(".btn");
     var dayEl = $("#currentDay");
 
@@ -25,14 +14,6 @@ $(function () {
     };
 
     buttonEl.on("click", handleSaveButton);
-
-    // gets current hour
-    var currentHour = dayjs().hour();
-
-    // loops through all 9 hours in a work day
-    for(var i = 9; i <= 17; i++) {
-        checkTime(i, currentHour);
-    }
 
     /*
     * function checks if current hour is before, during, or after the current hour,
@@ -65,5 +46,31 @@ $(function () {
     // displays current day in header
     var currentDay = dayjs().format("dddd, MMMM D");
     dayEl.text(currentDay); //references id of <p> in header
-  });
+
+    // gets current hour
+    var currentHour = dayjs().hour();
+
+    // loops through all 9 hours in a work day
+    for(var i = 9; i <= 17; i++) {
+        checkTime(i, currentHour);
+    }
+
+    // loops through each textarea and displays saved text from local storage
+    function displayEvents() {
+        for(var i = 9; i <= 17; i++) {
+            var newHour = i;
+            if(i > 12) {
+                newHour = newHour - 12; // convert from 24 hour to 12 hour clock
+            }
+
+            // set textarea content to match content saved in local storage
+            if(localStorage.getItem("hour-" + newHour) !== null) {
+                $("#hour-" + newHour).children().eq(1).text(localStorage.getItem("hour-" + newHour));
+            }
+        }
+    }
+
+    displayEvents(); // display events on page load
+
+});
   
